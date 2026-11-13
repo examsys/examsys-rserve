@@ -1,4 +1,4 @@
-FROM rhub/r-minimal:4.5.2-patched
+FROM rhub/r-minimal:4.6.2-patched
 
 RUN installr -d pracma
 RUN installr -d RPMG
