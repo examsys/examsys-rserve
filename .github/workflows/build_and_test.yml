@@ -27,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
     steps:
       - uses: actions/checkout@v7
       - name: Lint Dockerfile
@@ -36,21 +35,3 @@ jobs:
         with:
           dockerfile: Dockerfile
           ignore: DL3059
-      - name: Update Pull Request
-        uses: actions/github-script@v9
-        if: github.event_name == 'pull_request'
-        with:
-          script: |
-            const output = `
-            #### Hadolint: \`${{ steps.hadolint.outcome }}\`
-            \`\`\`
-            ${process.env.HADOLINT_RESULTS}
-            \`\`\`
-            `;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
